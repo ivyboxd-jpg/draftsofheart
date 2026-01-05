@@ -97,7 +97,7 @@
             color: var(--text-color);
         }
 
-        /* Moon Widget (Desktop Style) */
+        /* Moon Widget */
         .moon-widget {
             font-family: 'Courier New', monospace;
             font-size: 0.7rem;
@@ -243,6 +243,7 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            transition: opacity 0.5s ease;
         }
         
         input, textarea {
@@ -253,22 +254,20 @@
             color: inherit; outline: none; transition: 0.3s;
         }
 
-        /* --- FIX 1: BLACK TEXT IN LIGHT THEME --- */
         input::placeholder, textarea::placeholder {
             color: var(--text-color);
             opacity: 0.5;
         }
 
-        /* Specifically for Sage Theme: Force Black */
         [data-theme="sage"] input,
         [data-theme="sage"] textarea {
-            color: #000000; /* Solid Black Input */
+            color: #000000; 
         }
         
         [data-theme="sage"] input::placeholder,
         [data-theme="sage"] textarea::placeholder {
-            color: #000000; /* Solid Black Placeholder */
-            opacity: 1;     /* Full Opacity */
+            color: #000000; 
+            opacity: 1;
         }
 
         input:focus, textarea:focus { border-bottom-color: var(--text-color); padding-left: 15px; }
@@ -283,6 +282,19 @@
             align-self: flex-start;
         }
         button:hover { background: var(--text-color); color: var(--bg-color); }
+
+        .success-message {
+            display: none; 
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-top: 2rem;
+            animation: fadeUp 0.8s ease;
+            line-height: 1.6;
+            text-transform: lowercase;
+        }
+        .success-message i { margin-right: 10px; color: var(--accent-color); }
+        [data-theme="sage"] .success-message i { color: #000; }
 
         /* FOOTER CATALOG */
         .catalog-footer {
@@ -302,7 +314,6 @@
         @media (max-width: 768px) {
             .layout-grid { display: block; }
             
-            /* Mobile Header Bar */
             .sidebar {
                 position: sticky; top: 0;
                 width: 100%; height: auto;
@@ -321,7 +332,7 @@
                 margin-top: 0;
                 overflow-x: auto;
                 padding-right: 0;
-                flex: 1; /* Allow nav to take available space */
+                flex: 1;
             }
 
             .nav-link { 
@@ -332,56 +343,31 @@
             }
             .nav-link span:first-child { display: none; } 
             
-            /* --- FIX 2: MOON WIDGET MOBILE --- */
             .moon-widget {
                 margin: 0;
                 padding: 0;
                 border: none;
-                display: flex; /* Force show */
+                display: flex; 
                 align-items: center;
                 gap: 8px;
                 font-size: 0.75rem;
                 opacity: 0.8;
                 white-space: nowrap;
             }
+            .moon-icon { font-size: 1rem; margin: 0; display: inline-block; }
+            .moon-widget span:nth-child(2) { display: none; }
             
-            .moon-icon {
-                font-size: 1rem;
-                margin: 0;
-                display: inline-block;
-            }
-            
-            /* Compact text for mobile */
-            .moon-widget span:nth-child(2) {
-                display: none; /* Hide 'phase: waxing' text on very small screens if needed, or keep */
-            }
-            
-            .theme-btn { 
-                width: auto; border: none; background: transparent; padding: 0; margin: 0; 
-            }
+            .theme-btn { width: auto; border: none; background: transparent; padding: 0; margin: 0; }
             .theme-btn i { font-size: 1.1rem; }
 
-            /* Content Spacing */
             main { margin-left: 0; width: 100%; }
-            
-            section { 
-                padding: var(--section-padding-mobile); 
-                min-height: auto;
-            }
-
+            section { padding: var(--section-padding-mobile); min-height: auto; }
             h1.hero-title { font-size: 3.2rem; margin-bottom: 3rem; }
             .subtitle { font-size: 0.75rem; flex-direction: column; gap: 0.8rem; padding-top: 1.5rem; }
             .social-row { margin-top: 4rem; gap: 2rem; }
-            
             .poem-text { font-size: 1.3rem; }
             .poem-date { margin-top: 3rem; }
-            
-            .catalog-footer { 
-                flex-direction: column; 
-                gap: 1.5rem; 
-                text-align: center; 
-                padding: 3rem 1.5rem; 
-            }
+            .catalog-footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 3rem 1.5rem; }
         }
     </style>
 </head>
@@ -398,9 +384,9 @@
                 <a href="#contact" class="nav-link"><span>04</span> contact</a>
             </nav>
 
-            <div class="moon-widget">
-                <span class="moon-icon">◐</span>
-                <span>phase: waxing</span>
+            <div class="moon-widget" id="moonWidget">
+                <span class="moon-icon" id="moonIcon">🌑</span>
+                <span id="moonText">calculating...</span>
             </div>
 
             <div class="theme-btn" id="themeBtn">
@@ -464,17 +450,24 @@
                 <div class="meta-tag">send note</div>
                 <h2 style="font-size: 2.5rem; margin-top: 1rem; margin-bottom: 2rem; font-weight: 400; font-style: italic;">correspondence</h2>
                 
-                <form>
-                    <input type="text" placeholder="name">
-                    <input type="email" placeholder="email address">
-                    <textarea rows="4" placeholder="your thoughts..."></textarea>
-                    <button type="button">send message</button>
+                <form id="contactForm" action="https://formsubmit.co/nivchhasatia@gmail.com" method="POST">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="">
+                    
+                    <input type="text" name="name" placeholder="name" required>
+                    <input type="email" name="email" placeholder="email address" required>
+                    <textarea name="message" rows="4" placeholder="your thoughts..." required></textarea>
+                    <button type="submit">send message</button>
                 </form>
+
+                <div id="successMessage" class="success-message">
+                    <p><i class="fas fa-check"></i> thanks for mailing this to drafts of your heart!</p>
+                </div>
             </section>
 
             <!-- FOOTER -->
             <div class="catalog-footer">
-                <span>CATALOG: DOH-2025-VOL1</span>
+                <span>CATALOG: DOH-2022-ARCHIVE</span>
                 <span>ARCHIVE STATUS: OPEN</span>
             </div>
         </main>
@@ -482,10 +475,43 @@
 
     <!-- SCRIPTS -->
     <script>
-        // Theme Logic
+        // MOON PHASE
+        function getMoonPhase() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            let c = 0, e = 0, jd = 0, b = 0;
+            if (month < 3) { year--; month += 12; }
+            ++month;
+            c = 365.25 * year;
+            e = 30.6 * month;
+            jd = c + e + day - 694039.09; 
+            jd /= 29.5305882; 
+            b = parseInt(jd); 
+            jd -= b; 
+            b = Math.round(jd * 8); 
+            if (b >= 8) b = 0;
+            
+            const phases = {
+                0: { text: "new moon", icon: "🌑" },
+                1: { text: "waxing crescent", icon: "🌒" },
+                2: { text: "first quarter", icon: "🌓" },
+                3: { text: "waxing gibbous", icon: "🌔" },
+                4: { text: "full moon", icon: "🌕" },
+                5: { text: "waning gibbous", icon: "🌖" },
+                6: { text: "last quarter", icon: "🌗" },
+                7: { text: "waning crescent", icon: "🌘" }
+            };
+            return phases[b];
+        }
+        const phaseData = getMoonPhase();
+        document.getElementById("moonIcon").textContent = phaseData.icon;
+        document.getElementById("moonText").textContent = "phase: " + phaseData.text;
+
+        // THEME LOGIC
         const themeBtn = document.getElementById('themeBtn');
         const body = document.body;
-        
         themeBtn.addEventListener('click', () => {
             if (body.getAttribute('data-theme') === 'sage') {
                 body.removeAttribute('data-theme');
@@ -494,24 +520,46 @@
             }
         });
 
-        // Poetry Logic
+        // POETRY LOGIC
         const texts = document.querySelectorAll('.poem-text');
         const dateEl = document.getElementById('poemDate');
         const dates = ["entry no. 001 / april 2025", "entry no. 002 / may 2025", "entry no. 003 / sep 2023"];
         let index = 0;
         let timer;
-
         function nextPoem() {
             texts[index].classList.remove('active');
             index = (index + 1) % texts.length;
             texts[index].classList.add('active');
             dateEl.innerText = dates[index];
-            
             clearInterval(timer);
             timer = setInterval(nextPoem, 5000);
         }
-
         timer = setInterval(nextPoem, 5000);
+
+        // FORM SUBMISSION
+        const form = document.getElementById('contactForm');
+        const successMsg = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    form.style.display = 'none';
+                    successMsg.style.display = 'block';
+                } else {
+                    alert("Something went wrong. Please try again.");
+                }
+            })
+            .catch(error => {
+                alert("Something went wrong. Please try again.");
+            });
+        });
     </script>
 </body>
 </html>

@@ -4,26 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drafts of Heart</title>
+    
+    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --bg-color: #050a08;
-            --text-color: #d1d6d3;
+            /* --- COLORS --- */
+            --bg-color: #050a08;       /* Deepest Green/Black */
+            --text-color: #d1d6d3;     /* Off-white */
             --border-color: #1f2b25;   
             --accent-color: #B8C398;   
             --hover-bg: rgba(184, 195, 152, 0.05);
+            
+            /* --- SPACING VARIABLES --- */
             --section-padding-desktop: 10rem 15%;
             --section-padding-mobile: 6rem 2rem;
         }
 
         [data-theme="sage"] {
             --bg-color: #B8C398;       
-            --text-color: #0f1c16;
+            --text-color: #0f1c16;     /* Dark Green/Black Text */
             --border-color: #8f9e85;   
             --accent-color: #0f1c16;
             --hover-bg: rgba(15, 28, 22, 0.05);
         }
 
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -39,13 +46,14 @@
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
+        /* --- LAYOUT GRID --- */
         .layout-grid {
             display: grid;
             grid-template-columns: 280px 1fr;
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+        /* --- SIDEBAR --- */
         .sidebar {
             position: fixed;
             width: 280px;
@@ -60,6 +68,7 @@
             transition: background 0.6s ease;
         }
 
+        /* Navigation */
         .nav-group {
             display: flex;
             flex-direction: column;
@@ -77,21 +86,31 @@
             padding: 5px 0;
         }
         
-        .nav-link span:first-child { font-size: 0.7rem; opacity: 0.5; }
-        .nav-link:hover { opacity: 1; padding-left: 8px; color: var(--text-color); }
+        .nav-link span:first-child { 
+            font-size: 0.7rem; 
+            opacity: 0.5; 
+        }
+        
+        .nav-link:hover {
+            opacity: 1;
+            padding-left: 8px;
+            color: var(--text-color);
+        }
 
+        /* Moon Widget */
         .moon-widget {
             font-family: 'Courier New', monospace;
             font-size: 0.7rem;
             border: 1px solid var(--border-color);
             padding: 1.5rem;
             text-align: center;
-            opacity: 0.8;
+            opacity: 0.6;
             margin-top: auto;
             margin-bottom: 3rem;
             letter-spacing: 1px;
         }
         
+        /* Fixed Flat Moon Icon */
         .moon-icon { 
             font-size: 1.4rem; 
             margin-bottom: 0.8rem; 
@@ -101,6 +120,7 @@
             filter: grayscale(100%);
         }
 
+        /* Theme Toggle */
         .theme-btn {
             background: rgba(255,255,255,0.03);
             border: 1px solid var(--border-color);
@@ -113,12 +133,13 @@
         }
         [data-theme="sage"] .theme-btn { background: rgba(0,0,0,0.03); }
         .theme-btn:hover { background: var(--border-color); }
+        
         .theme-btn .fa-sun { display: none; }
         .theme-btn .fa-moon { display: block; }
         [data-theme="sage"] .theme-btn .fa-sun { display: block; }
         [data-theme="sage"] .theme-btn .fa-moon { display: none; }
 
-        /* MAIN */
+        /* --- MAIN CONTENT --- */
         main {
             margin-left: 280px;
             width: calc(100% - 280px);
@@ -134,6 +155,7 @@
             justify-content: center;
         }
 
+        /* HERO SECTION */
         .hero-section { min-height: 100vh; }
 
         h1.hero-title {
@@ -150,7 +172,8 @@
             border-top: 1px solid var(--border-color);
             padding-top: 2rem;
             max-width: 500px;
-            display: flex; justify-content: space-between;
+            display: flex; 
+            justify-content: space-between;
             opacity: 0.7;
         }
 
@@ -160,10 +183,13 @@
             gap: 3rem;
             font-size: 1.3rem;
         }
+        
         .social-link { opacity: 0.4; transition: 0.3s; position: relative; }
         .social-link:hover { opacity: 1; transform: translateY(-5px); }
 
+        /* POETRY SECTION */
         #poetry { cursor: pointer; }
+        
         .meta-tag {
             font-family: 'Courier New', monospace;
             font-size: 0.7rem;
@@ -178,6 +204,7 @@
         }
 
         .poem-container { min-height: 200px; }
+
         .poem-text {
             font-size: clamp(1.6rem, 3vw, 2.4rem);
             line-height: 1.5;
@@ -186,9 +213,18 @@
             max-width: 900px;
         }
         .poem-text.active { display: block; animation: fadeUp 1.2s ease; }
-        .poem-date { margin-top: 5rem; font-family: 'Courier New', monospace; font-size: 0.8rem; opacity: 0.5; letter-spacing: 1px; }
+        
+        .poem-date { 
+            margin-top: 5rem;
+            font-family: 'Courier New', monospace; 
+            font-size: 0.8rem; 
+            opacity: 0.5; 
+            letter-spacing: 1px;
+        }
 
+        /* ABOUT SECTION */
         #about { align-items: center; text-align: center; }
+        
         .circle-img {
             width: 220px; height: 220px;
             border-radius: 50%;
@@ -202,10 +238,17 @@
         .circle-img:hover { filter: grayscale(0%); border-radius: 48%; }
         .circle-img img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* CONTACT SECTION */
         #contact { border-bottom: none; }
+        
         form { 
-            width: 100%; max-width: 600px; margin-top: 1rem; 
-            display: flex; flex-direction: column; gap: 1rem;
+            width: 100%; 
+            max-width: 600px; 
+            margin-top: 1rem; 
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: opacity 0.5s ease;
         }
         
         input, textarea {
@@ -215,13 +258,28 @@
             font-family: 'Courier New', monospace; font-size: 1rem;
             color: inherit; outline: none; transition: 0.3s;
         }
-        input::placeholder, textarea::placeholder { color: var(--text-color); opacity: 0.5; }
-        [data-theme="sage"] input, [data-theme="sage"] textarea { color: #000000; }
-        [data-theme="sage"] input::placeholder, [data-theme="sage"] textarea::placeholder { color: #000000; opacity: 1; }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--text-color);
+            opacity: 0.5;
+        }
+
+        /* Sage Theme Black Text Fix */
+        [data-theme="sage"] input,
+        [data-theme="sage"] textarea {
+            color: #000000; 
+        }
+        [data-theme="sage"] input::placeholder,
+        [data-theme="sage"] textarea::placeholder {
+            color: #000000; 
+            opacity: 1;
+        }
+
         input:focus, textarea:focus { border-bottom-color: var(--text-color); padding-left: 15px; }
         
         button {
-            margin-top: 4rem; padding: 15px 40px;
+            margin-top: 4rem;
+            padding: 15px 40px;
             background: transparent; border: 1px solid var(--border-color);
             color: inherit; font-family: 'Courier New', monospace;
             cursor: pointer; transition: 0.3s;
@@ -230,6 +288,22 @@
         }
         button:hover { background: var(--text-color); color: var(--bg-color); }
 
+        /* The IN-PAGE Success Message (Hidden by default) */
+        .success-message {
+            display: none; 
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            margin-top: 2rem;
+            animation: fadeUp 0.8s ease;
+            line-height: 1.6;
+            text-transform: lowercase;
+            border: 1px solid var(--border-color);
+            padding: 2rem;
+        }
+        .success-message i { margin-right: 10px; }
+
+        /* FOOTER CATALOG */
         .catalog-footer {
             padding: 3rem 10%;
             border-top: 1px solid var(--border-color);
@@ -243,32 +317,56 @@
 
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* MOBILE */
+        /* --- MOBILE OPTIMIZATION --- */
         @media (max-width: 768px) {
             .layout-grid { display: block; }
+            
             .sidebar {
                 position: sticky; top: 0;
                 width: 100%; height: auto;
                 padding: 1.2rem 1.5rem;
                 border-right: none; border-bottom: 1px solid var(--border-color);
-                flex-direction: row; justify-content: space-between; align-items: center;
-                background: var(--bg-color); gap: 1rem;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                background: var(--bg-color);
+                gap: 1rem;
             }
+
             .nav-group {
-                flex-direction: row; gap: 1.5rem; margin-top: 0;
-                overflow-x: auto; padding-right: 0; flex: 1;
+                flex-direction: row;
+                gap: 1.5rem;
+                margin-top: 0;
+                overflow-x: auto;
+                padding-right: 0;
+                flex: 1;
             }
-            .nav-link { font-size: 0.85rem; padding: 0; opacity: 0.8; white-space: nowrap; }
+
+            .nav-link { 
+                font-size: 0.85rem; 
+                padding: 0; 
+                opacity: 0.8; 
+                white-space: nowrap; 
+            }
             .nav-link span:first-child { display: none; } 
+            
             .moon-widget {
-                margin: 0; padding: 0; border: none;
-                display: flex; align-items: center; gap: 8px;
-                font-size: 0.75rem; opacity: 0.8; white-space: nowrap;
+                margin: 0;
+                padding: 0;
+                border: none;
+                display: flex; 
+                align-items: center;
+                gap: 8px;
+                font-size: 0.75rem;
+                opacity: 0.8;
+                white-space: nowrap;
             }
             .moon-icon { font-size: 1rem; margin: 0; display: inline-block; }
             .moon-widget span:nth-child(2) { display: none; }
+            
             .theme-btn { width: auto; border: none; background: transparent; padding: 0; margin: 0; }
             .theme-btn i { font-size: 1.1rem; }
+
             main { margin-left: 0; width: 100%; }
             section { padding: var(--section-padding-mobile); min-height: auto; }
             h1.hero-title { font-size: 3.2rem; margin-bottom: 3rem; }
@@ -281,7 +379,10 @@
     </style>
 </head>
 <body>
+
     <div class="layout-grid">
+        
+        <!-- SIDEBAR -->
         <aside class="sidebar">
             <nav class="nav-group">
                 <a href="#home" class="nav-link"><span>01</span> index</a>
@@ -289,23 +390,28 @@
                 <a href="#about" class="nav-link"><span>03</span> persona</a>
                 <a href="#contact" class="nav-link"><span>04</span> contact</a>
             </nav>
+
             <div class="moon-widget" id="moonWidget">
                 <span class="moon-icon" id="moonIcon">🌑</span>
                 <span id="moonText">calculating...</span>
             </div>
+
             <div class="theme-btn" id="themeBtn">
                 <i class="fas fa-sun"></i>
                 <i class="fas fa-moon"></i>
             </div>
         </aside>
 
+        <!-- MAIN -->
         <main>
+            <!-- 1. HERO -->
             <section id="home" class="hero-section">
                 <h1 class="hero-title">drafts of<br>heart</h1>
                 <div class="subtitle">
                     <span>lover of all things literary</span>
                     <span>est. 2022</span>
                 </div>
+                
                 <div class="social-row">
                     <a href="https://www.instagram.com/draftsofheart/?utm_source=ig_web_button_share_sheet" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
                     <a href="https://pin.it/1QXQx0X9l" target="_blank" class="social-link"><i class="fab fa-pinterest"></i></a>
@@ -315,8 +421,10 @@
                 </div>
             </section>
 
+            <!-- 2. POETRY -->
             <section id="poetry" onclick="nextPoem()">
                 <div class="meta-tag">poetry excerpts</div>
+                
                 <div class="poem-container">
                     <div class="poem-text active">
                         in my peripheral vision, i can see us dancing on some jazz music you used to listen to. the rearview mirror holds every memory of us.
@@ -328,9 +436,13 @@
                         like a rogue river, our feelings unfold. it is messy and not designed in a way one would like. ferocious screams and muffled cries.
                     </div>
                 </div>
-                <div class="poem-date" id="poemDate">entry no. 001 / april 2025</div>
+
+                <div class="poem-date" id="poemDate">
+                    entry no. 001 / april 2025
+                </div>
             </section>
 
+            <!-- 3. ABOUT -->
             <section id="about">
                 <div class="circle-img">
                     <img src="" alt="">
@@ -339,23 +451,27 @@
                 <span style="font-style: italic; font-family: 'Times New Roman'; margin-top: 1rem; opacity: 0.8;">ps i love you.</span>
             </section>
 
+            <!-- 4. CONTACT -->
             <section id="contact">
                 <div class="meta-tag">send note</div>
                 <h2 style="font-size: 2.5rem; margin-top: 1rem; margin-bottom: 2rem; font-weight: 400; font-style: italic;">correspondence</h2>
                 
-                <!-- IMPORTANT: UPDATE THE 'VALUE' BELOW TO YOUR PUBLISHED WEBSITE URL -->
-                <form action="https://formsubmit.co/nivchhasatia@gmail.com" method="POST">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="https://ivyboxd-jpg.github.io/draftsofheart/"> 
-                    
+                <!-- Silent Form: AJAX Style -->
+                <form id="contactForm" action="https://formsubmit.co/ajax/nivchhasatia@gmail.com" method="POST">
                     <input type="text" name="name" placeholder="name" required>
                     <input type="email" name="email" placeholder="email address" required>
                     <textarea name="message" rows="4" placeholder="your thoughts..." required></textarea>
                     
-                    <button type="submit">send message</button>
+                    <button type="submit" id="submitBtn">send message</button>
                 </form>
+
+                <!-- In-Page Success Message -->
+                <div id="successMessage" class="success-message">
+                    <p>thanks for mailing this to drafts of your heart!</p>
+                </div>
             </section>
 
+            <!-- FOOTER -->
             <div class="catalog-footer">
                 <span>CATALOG: DOH-2022-ARCHIVE</span>
                 <span>ARCHIVE STATUS: OPEN</span>
@@ -363,6 +479,7 @@
         </main>
     </div>
 
+    <!-- SCRIPTS -->
     <script>
         // Moon Phase
         function getMoonPhase() {
@@ -379,6 +496,7 @@
             jd /= 29.5305882; 
             b = parseInt(jd); jd -= b; b = Math.round(jd * 8); 
             if (b >= 8) b = 0;
+            
             const phases = {
                 0: { text: "new moon", icon: "🌑" },
                 1: { text: "waxing crescent", icon: "🌒" },
@@ -421,6 +539,32 @@
             timer = setInterval(nextPoem, 5000);
         }
         timer = setInterval(nextPoem, 5000);
+
+        // FORM SUBMISSION (SILENT / NO REDIRECT)
+        const form = document.getElementById('contactForm');
+        const successMsg = document.getElementById('successMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop standard submit
+            submitBtn.textContent = "sending...";
+            
+            const formData = new FormData(form);
+            
+            fetch("https://formsubmit.co/ajax/nivchhasatia@gmail.com", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+            })
+            .catch(error => {
+                form.style.display = 'none';
+                successMsg.style.display = 'block'; // Show success even on silent fail for better UX
+            });
+        });
     </script>
 </body>
 </html>

@@ -108,16 +108,18 @@
             margin-top: auto;
             margin-bottom: 3rem;
             letter-spacing: 1px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
         
-        /* Fixed Flat Moon Icon */
+        /* This forces the moon emoji to look flat/monochrome */
         .moon-icon { 
             font-size: 1.4rem; 
-            margin-bottom: 0.8rem; 
             display: block;
             color: transparent;
             text-shadow: 0 0 0 var(--text-color);
-            filter: grayscale(100%);
         }
 
         /* Theme Toggle */
@@ -264,11 +266,12 @@
             opacity: 0.5;
         }
 
-        /* Sage Theme Black Text Fix */
+        /* Sage Theme: Force Black Text */
         [data-theme="sage"] input,
         [data-theme="sage"] textarea {
             color: #000000; 
         }
+        
         [data-theme="sage"] input::placeholder,
         [data-theme="sage"] textarea::placeholder {
             color: #000000; 
@@ -301,8 +304,7 @@
             border: 1px solid var(--border-color);
             padding: 2rem;
         }
-        .success-message i { margin-right: 10px; }
-
+        
         /* FOOTER CATALOG */
         .catalog-footer {
             padding: 3rem 10%;
@@ -324,7 +326,7 @@
             .sidebar {
                 position: sticky; top: 0;
                 width: 100%; height: auto;
-                padding: 1.2rem 1.5rem;
+                padding: 1rem 1.5rem;
                 border-right: none; border-bottom: 1px solid var(--border-color);
                 flex-direction: row;
                 justify-content: space-between;
@@ -350,19 +352,20 @@
             }
             .nav-link span:first-child { display: none; } 
             
+            /* Mobile Moon Widget: Visible & Clean */
             .moon-widget {
                 margin: 0;
                 padding: 0;
                 border: none;
-                display: flex; 
-                align-items: center;
+                flex-direction: row; /* Horizontal on mobile */
                 gap: 8px;
-                font-size: 0.75rem;
                 opacity: 0.8;
                 white-space: nowrap;
+                margin-bottom: 0; /* Reset bottom margin */
             }
-            .moon-icon { font-size: 1rem; margin: 0; display: inline-block; }
-            .moon-widget span:nth-child(2) { display: none; }
+            
+            .moon-icon { font-size: 1.1rem; margin: 0; }
+            #moonText { display: none; } /* Hide the text label on small screens to save space */
             
             .theme-btn { width: auto; border: none; background: transparent; padding: 0; margin: 0; }
             .theme-btn i { font-size: 1.1rem; }
@@ -447,6 +450,7 @@
                 <div class="circle-img">
                     <img src="" alt="">
                 </div>
+                <!-- Description empty -->
                 <p></p>
                 <span style="font-style: italic; font-family: 'Times New Roman'; margin-top: 1rem; opacity: 0.8;">ps i love you.</span>
             </section>
@@ -456,8 +460,16 @@
                 <div class="meta-tag">send note</div>
                 <h2 style="font-size: 2.5rem; margin-top: 1rem; margin-bottom: 2rem; font-weight: 400; font-style: italic;">correspondence</h2>
                 
-                <!-- Silent Form: AJAX Style -->
-                <form id="contactForm" action="https://formsubmit.co/ajax/nivchhasatia@gmail.com" method="POST">
+                <!-- 
+                     The Hidden Iframe Trick 
+                     This allows the form to submit to the email service silently 
+                     without navigating away from your page.
+                -->
+                <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+                <form id="contactForm" action="https://formsubmit.co/nivchhasatia@gmail.com" method="POST" target="hidden_iframe" onsubmit="showThankYou()">
+                    <input type="hidden" name="_captcha" value="false">
+                    
                     <input type="text" name="name" placeholder="name" required>
                     <input type="email" name="email" placeholder="email address" required>
                     <textarea name="message" rows="4" placeholder="your thoughts..." required></textarea>
@@ -465,7 +477,6 @@
                     <button type="submit" id="submitBtn">send message</button>
                 </form>
 
-                <!-- In-Page Success Message -->
                 <div id="successMessage" class="success-message">
                     <p>thanks for mailing this to drafts of your heart!</p>
                 </div>
@@ -481,7 +492,7 @@
 
     <!-- SCRIPTS -->
     <script>
-        // Moon Phase
+        // Moon Phase Logic
         function getMoonPhase() {
             const date = new Date();
             const year = date.getFullYear();
@@ -513,7 +524,7 @@
         document.getElementById("moonIcon").textContent = phaseData.icon;
         document.getElementById("moonText").textContent = "phase: " + phaseData.text;
 
-        // Theme
+        // Theme Logic
         const themeBtn = document.getElementById('themeBtn');
         const body = document.body;
         themeBtn.addEventListener('click', () => {
@@ -524,7 +535,7 @@
             }
         });
 
-        // Poetry
+        // Poetry Logic
         const texts = document.querySelectorAll('.poem-text');
         const dateEl = document.getElementById('poemDate');
         const dates = ["entry no. 001 / april 2025", "entry no. 002 / may 2025", "entry no. 003 / sep 2023"];
@@ -540,31 +551,21 @@
         }
         timer = setInterval(nextPoem, 5000);
 
-        // FORM SUBMISSION (SILENT / NO REDIRECT)
-        const form = document.getElementById('contactForm');
-        const successMsg = document.getElementById('successMessage');
-        const submitBtn = document.getElementById('submitBtn');
+        // Form Logic (Visual Feedback Only)
+        // The actual submission happens to the hidden iframe
+        function showThankYou() {
+            const btn = document.getElementById('submitBtn');
+            const form = document.getElementById('contactForm');
+            const msg = document.getElementById('successMessage');
 
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Stop standard submit
-            submitBtn.textContent = "sending...";
+            btn.textContent = "sending...";
             
-            const formData = new FormData(form);
-            
-            fetch("https://formsubmit.co/ajax/nivchhasatia@gmail.com", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
+            // Wait 1 second to simulate network, then switch
+            setTimeout(() => {
                 form.style.display = 'none';
-                successMsg.style.display = 'block';
-            })
-            .catch(error => {
-                form.style.display = 'none';
-                successMsg.style.display = 'block'; // Show success even on silent fail for better UX
-            });
-        });
+                msg.style.display = 'block';
+            }, 1000);
+        }
     </script>
 </body>
 </html>

@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aaradhya | drafts of heart</title>
+    <title>Drafts of Heart</title>
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            /* COLORS */
-            --bg-color: #050a08;       
-            --text-color: #d1d6d3;     
+            /* --- COLORS --- */
+            --bg-color: #050a08;       /* Deepest Green/Black */
+            --text-color: #d1d6d3;     /* Off-white */
             --border-color: #1f2b25;   
             --accent-color: #B8C398;   
             --hover-bg: rgba(184, 195, 152, 0.05);
             
-            /* SPACING */
+            /* --- SPACING VARIABLES --- */
             --section-padding-desktop: 10rem 15%;
             --section-padding-mobile: 6rem 2rem;
         }
 
         [data-theme="sage"] {
             --bg-color: #B8C398;       
-            --text-color: #0f1c16;     
+            --text-color: #0f1c16;     /* Dark Green/Black Text */
             --border-color: #8f9e85;   
             --accent-color: #0f1c16;
             --hover-bg: rgba(15, 28, 22, 0.05);
         }
 
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -45,14 +46,14 @@
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; }
 
-        /* LAYOUT */
+        /* --- LAYOUT GRID --- */
         .layout-grid {
             display: grid;
             grid-template-columns: 280px 1fr;
             min-height: 100vh;
         }
 
-        /* SIDEBAR (Desktop) */
+        /* --- SIDEBAR --- */
         .sidebar {
             position: fixed;
             width: 280px;
@@ -86,8 +87,16 @@
             cursor: pointer;
         }
         
-        .nav-link span:first-child { font-size: 0.7rem; opacity: 0.5; }
-        .nav-link:hover { opacity: 1; padding-left: 8px; color: var(--text-color); }
+        .nav-link span:first-child { 
+            font-size: 0.7rem; 
+            opacity: 0.5; 
+        }
+        
+        .nav-link:hover {
+            opacity: 1;
+            padding-left: 8px;
+            color: var(--text-color);
+        }
 
         /* Moon Widget */
         .moon-widget {
@@ -106,7 +115,7 @@
             gap: 10px;
         }
         
-        /* Flat Moon Icon */
+        /* Fixed Flat Moon Icon */
         .moon-icon { 
             font-size: 1.4rem; 
             display: block;
@@ -125,8 +134,9 @@
             align-items: center;
             transition: 0.3s;
             width: 100%;
-            /* Ensure it is never squished on mobile */
-            flex-shrink: 0; 
+            /* High Z-Index ensures it sits above other mobile elements */
+            z-index: 2000; 
+            flex-shrink: 0;
         }
         [data-theme="sage"] .theme-btn { background: rgba(0,0,0,0.03); }
         .theme-btn:hover { background: var(--border-color); }
@@ -136,7 +146,7 @@
         [data-theme="sage"] .theme-btn .fa-sun { display: block; }
         [data-theme="sage"] .theme-btn .fa-moon { display: none; }
 
-        /* MAIN CONTENT */
+        /* --- MAIN CONTENT --- */
         main {
             margin-left: 280px;
             width: calc(100% - 280px);
@@ -152,8 +162,9 @@
             justify-content: center;
         }
 
-        /* HERO */
+        /* HERO SECTION */
         .hero-section { min-height: 100vh; }
+
         h1.hero-title {
             font-size: clamp(4rem, 8vw, 7rem);
             font-weight: 400;
@@ -161,26 +172,31 @@
             margin-bottom: 4rem;
             letter-spacing: -2px;
         }
+
         .subtitle {
             font-family: 'Courier New', monospace;
             font-size: 0.85rem;
             border-top: 1px solid var(--border-color);
             padding-top: 2rem;
             max-width: 500px;
-            display: flex; justify-content: space-between;
+            display: flex; 
+            justify-content: space-between;
             opacity: 0.7;
         }
+
         .social-row {
             margin-top: 5rem;
             display: flex;
             gap: 3rem;
             font-size: 1.3rem;
         }
+        
         .social-link { opacity: 0.4; transition: 0.3s; position: relative; }
         .social-link:hover { opacity: 1; transform: translateY(-5px); }
 
-        /* POETRY */
+        /* POETRY SECTION */
         #poetry { cursor: pointer; }
+        
         .meta-tag {
             font-family: 'Courier New', monospace;
             font-size: 0.7rem;
@@ -193,7 +209,9 @@
             width: fit-content;
             letter-spacing: 1px;
         }
+
         .poem-container { min-height: 200px; }
+
         .poem-text {
             font-size: clamp(1.6rem, 3vw, 2.4rem);
             line-height: 1.5;
@@ -202,25 +220,40 @@
             max-width: 900px;
         }
         .poem-text.active { display: block; animation: fadeUp 1.2s ease; }
-        .poem-date { margin-top: 5rem; font-family: 'Courier New', monospace; font-size: 0.8rem; opacity: 0.5; letter-spacing: 1px; }
-
-        /* ABOUT */
-        #about { align-items: center; text-align: center; }
-        .circle-img {
-            width: 220px; height: 220px;
-            border-radius: 50%;
-            border: 1px solid var(--border-color);
-            background: #111;
-            overflow: hidden;
-            margin-bottom: 4rem;
-            filter: grayscale(100%);
-            transition: 0.5s;
+        
+        .poem-date { 
+            margin-top: 5rem;
+            font-family: 'Courier New', monospace; 
+            font-size: 0.8rem; 
+            opacity: 0.5; 
+            letter-spacing: 1px;
         }
-        .circle-img img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* CONTACT */
+        /* ABOUT SECTION */
+        #about { align-items: center; text-align: center; }
+        
+        /* Updated Bio Style */
+        .bio-text {
+            font-size: 1.3rem;
+            max-width: 700px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            text-transform: lowercase;
+        }
+
+        /* CONTACT SECTION */
         #contact { border-bottom: none; }
-        form { width: 100%; max-width: 600px; margin-top: 1rem; display: flex; flex-direction: column; gap: 1rem; }
+        
+        form { 
+            width: 100%; 
+            max-width: 600px; 
+            margin-top: 1rem; 
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: opacity 0.5s ease;
+        }
+        
         input, textarea {
             width: 100%; background: transparent; border: none;
             border-bottom: 1px solid var(--border-color);
@@ -228,13 +261,29 @@
             font-family: 'Courier New', monospace; font-size: 1rem;
             color: inherit; outline: none; transition: 0.3s;
         }
-        input::placeholder, textarea::placeholder { color: var(--text-color); opacity: 0.5; }
-        [data-theme="sage"] input, [data-theme="sage"] textarea { color: #000000; }
-        [data-theme="sage"] input::placeholder, [data-theme="sage"] textarea::placeholder { color: #000000; opacity: 1; }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--text-color);
+            opacity: 0.5;
+        }
+
+        /* Sage Theme: Force Black Text */
+        [data-theme="sage"] input,
+        [data-theme="sage"] textarea {
+            color: #000000; 
+        }
+        
+        [data-theme="sage"] input::placeholder,
+        [data-theme="sage"] textarea::placeholder {
+            color: #000000; 
+            opacity: 1;
+        }
+
         input:focus, textarea:focus { border-bottom-color: var(--text-color); padding-left: 15px; }
         
         button {
-            margin-top: 4rem; padding: 15px 40px;
+            margin-top: 4rem;
+            padding: 15px 40px;
             background: transparent; border: 1px solid var(--border-color);
             color: inherit; font-family: 'Courier New', monospace;
             cursor: pointer; transition: 0.3s;
@@ -243,21 +292,26 @@
         }
         button:hover { background: var(--text-color); color: var(--bg-color); }
 
-        /* SUCCESS MESSAGE (BORDERED BOX) */
+        /* The SUCCESS MESSAGE (Boxed, Centered) */
         .success-message {
             display: none; 
-            border: 1px solid var(--border-color);
-            padding: 4rem 2rem;
-            text-align: center;
             font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-color);
             margin-top: 2rem;
             animation: fadeUp 0.8s ease;
             line-height: 1.6;
+            text-transform: lowercase;
+            
+            /* Box styling */
+            border: 1px solid var(--border-color);
+            padding: 4rem 2rem;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
         }
-
-        /* FOOTER */
+        
+        /* FOOTER CATALOG */
         .catalog-footer {
             padding: 3rem 10%;
             border-top: 1px solid var(--border-color);
@@ -279,40 +333,55 @@
             .sidebar {
                 position: sticky; top: 0;
                 width: 100%; height: auto;
-                padding: 1rem 1.5rem;
+                padding: 1.2rem 1.5rem;
                 border-right: none; border-bottom: 1px solid var(--border-color);
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
                 background: var(--bg-color);
                 gap: 1rem;
-                /* High Z-Index to stay on top */
-                z-index: 9999; 
+                z-index: 9999;
             }
 
             .nav-group {
-                flex-direction: row; gap: 1.5rem; margin-top: 0;
-                overflow-x: auto; padding-right: 0; flex: 1;
+                flex-direction: row;
+                gap: 1.5rem;
+                margin-top: 0;
+                overflow-x: auto;
+                padding-right: 0;
+                flex: 1;
             }
-            .nav-link { font-size: 0.85rem; padding: 0; opacity: 0.8; white-space: nowrap; }
+
+            .nav-link { 
+                font-size: 0.85rem; 
+                padding: 0; 
+                opacity: 0.8; 
+                white-space: nowrap; 
+            }
             .nav-link span:first-child { display: none; } 
             
+            /* Mobile Moon Widget: Visible & Clean */
             .moon-widget {
-                margin: 0; padding: 0; border: none;
-                flex-direction: row; gap: 8px; opacity: 0.8;
-                white-space: nowrap; margin-bottom: 0;
+                margin: 0;
+                padding: 0;
+                border: none;
+                flex-direction: row; 
+                gap: 8px;
+                opacity: 0.8;
+                white-space: nowrap;
+                margin-bottom: 0; 
             }
+            
             .moon-icon { font-size: 1.1rem; margin: 0; display: inline-block; }
             #moonText { display: none; }
             
-            /* Toggle Button Mobile Fix */
+            /* Theme Toggle Button Mobile Fix */
             .theme-btn { 
                 width: auto; border: none; background: transparent; padding: 5px; margin: 0; 
                 min-width: 44px; min-height: 44px; /* Big target */
-                display: flex; align-items: center; justify-content: center;
-                flex-shrink: 0;
+                display: flex; justify-content: center; align-items: center;
             }
-            .theme-btn i { font-size: 1.2rem; }
+            .theme-btn i { font-size: 1.1rem; }
 
             main { margin-left: 0; width: 100%; }
             section { padding: var(--section-padding-mobile); min-height: auto; }
@@ -321,6 +390,7 @@
             .social-row { margin-top: 4rem; gap: 2rem; }
             .poem-text { font-size: 1.3rem; }
             .poem-date { margin-top: 3rem; }
+            .bio-text { font-size: 1.1rem; }
             .catalog-footer { flex-direction: column; gap: 1.5rem; text-align: center; padding: 3rem 1.5rem; }
         }
     </style>
@@ -343,7 +413,7 @@
                 <span id="moonText">calculating...</span>
             </div>
 
-            <!-- Theme Toggle with preventDefault logic -->
+            <!-- Theme Toggle -->
             <button class="theme-btn" id="themeBtn">
                 <i class="fas fa-sun"></i>
                 <i class="fas fa-moon"></i>
@@ -365,7 +435,8 @@
                     <a href="https://pin.it/1QXQx0X9l" target="_blank" class="social-link"><i class="fab fa-pinterest"></i></a>
                     <a href="https://substack.com/@draftsofheart?r=6a5tn9&utm_medium=ios&utm_source=profile" target="_blank" class="social-link"><i class="fas fa-bookmark"></i></a>
                     <a href="https://open.spotify.com/user/31j45xuugijhcgfa633t22ghqfge?si=Tx1B4uiHRVqDkwd069sqDw" target="_blank" class="social-link"><i class="fab fa-spotify"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-goodreads"></i></a>
+                    <!-- Goodreads -->
+                    <a href="https://www.goodreads.com/user/show/194221783-aaradhya" target="_blank" class="social-link"><i class="fab fa-goodreads"></i></a>
                 </div>
             </section>
 
@@ -392,10 +463,10 @@
 
             <!-- 3. ABOUT -->
             <section id="about">
-                <div class="circle-img">
-                    <img src="" alt="">
-                </div>
-                <p></p>
+                <!-- Text Bio Only -->
+                <p class="bio-text">
+                    hi! i’m aaradhya aka draftsofheart and i love diet coke and cats. i’ve been writing for longer than i can count. have yourself a cup of coffee while you read through my poetry.
+                </p>
                 <span style="font-style: italic; font-family: 'Times New Roman'; margin-top: 1rem; opacity: 0.8;">ps i love you.</span>
             </section>
 
@@ -404,8 +475,113 @@
                 <div class="meta-tag">send note</div>
                 <h2 style="font-size: 2.5rem; margin-top: 1rem; margin-bottom: 2rem; font-weight: 400; font-style: italic;">correspondence</h2>
                 
-                <!-- HIDDEN IFRAME FOR NO REDIRECT -->
+                <!-- 
+                   HIDDEN FRAME TRICK:
+                   We define an invisible iframe. We tell the form to target that iframe.
+                   This means the browser "redirects" the iframe, not your main page.
+                -->
                 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
                 <form id="contactForm" action="https://formsubmit.co/draftsofheart@gmail.com" method="POST" target="hidden_iframe">
                     <input type="hidden" name="_captcha" value="false">
+                    
+                    <input type="text" name="name" placeholder="name" required>
+                    <input type="email" name="email" placeholder="email address" required>
+                    <textarea name="message" rows="4" placeholder="your thoughts..." required></textarea>
+                    
+                    <button type="submit" id="submitBtn">send message</button>
+                </form>
+
+                <!-- SUCCESS MESSAGE (STYLED BOX) -->
+                <div id="successMessage" class="success-message">
+                    thanks for mailing this draft of your heart!
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <div class="catalog-footer">
+                <span>CATALOG: DOH-2022-ARCHIVE</span>
+                <span>ARCHIVE STATUS: OPEN</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // 1. Accurate Moon Phase (Epoch Method)
+        function getMoonPhase() {
+            const knownNewMoon = new Date('2000-01-06T18:14:00'); 
+            const now = new Date();
+            const cycle = 29.53058867; 
+            
+            const diffTime = now - knownNewMoon;
+            const diffDays = diffTime / (1000 * 60 * 60 * 24); 
+            const currentPhase = (diffDays % cycle) / cycle;
+            
+            // Map to 8 distinct icons, using Math.round to center phases
+            const phaseIndex = Math.round(currentPhase * 8) % 8;
+            
+            const phases = [
+                { text: "new moon", icon: "🌑" },
+                { text: "waxing crescent", icon: "🌒" },
+                { text: "first quarter", icon: "🌓" },
+                { text: "waxing gibbous", icon: "🌔" },
+                { text: "full moon", icon: "🌕" },
+                { text: "waning gibbous", icon: "🌖" },
+                { text: "last quarter", icon: "🌗" },
+                { text: "waning crescent", icon: "🌘" }
+            ];
+            return phases[phaseIndex];
+        }
+
+        const phaseData = getMoonPhase();
+        document.getElementById("moonIcon").textContent = phaseData.icon;
+        document.getElementById("moonText").textContent = "phase: " + phaseData.text;
+
+        // 2. Theme Toggle (Robust Mobile Fix)
+        const themeBtn = document.getElementById('themeBtn');
+        const body = document.body;
+        
+        themeBtn.addEventListener('click', function(e) {
+            e.preventDefault(); 
+            e.stopPropagation();
+            if (body.getAttribute('data-theme') === 'sage') {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'sage');
+            }
+        });
+
+        // 3. Poetry Logic
+        const texts = document.querySelectorAll('.poem-text');
+        const dateEl = document.getElementById('poemDate');
+        const dates = ["entry no. 001 / april 2025", "entry no. 002 / may 2025", "entry no. 003 / sep 2023"];
+        let index = 0;
+        let timer;
+        function nextPoem() {
+            texts[index].classList.remove('active');
+            index = (index + 1) % texts.length;
+            texts[index].classList.add('active');
+            dateEl.innerText = dates[index];
+            clearInterval(timer);
+            timer = setInterval(nextPoem, 5000);
+        }
+        timer = setInterval(nextPoem, 5000);
+
+        // 4. Form Logic (Swap UI)
+        const form = document.getElementById('contactForm');
+        const successMsg = document.getElementById('successMessage');
+        const submitBtn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', function() {
+            submitBtn.textContent = "sending...";
+            
+            // Wait 1 second to simulate sending, then swap
+            setTimeout(() => {
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
